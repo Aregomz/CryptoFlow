@@ -11,17 +11,17 @@ CoinModel _$CoinModelFromJson(Map<String, dynamic> json) => CoinModel(
   symbol: json['symbol'] as String,
   name: json['name'] as String,
   image: json['image'] as String,
-  currentPrice: (json['currentPrice'] as num).toDouble(),
-  marketCap: (json['marketCap'] as num).toDouble(),
-  marketCapRank: (json['marketCapRank'] as num).toInt(),
-  high24h: (json['high24h'] as num).toDouble(),
-  low24h: (json['low24h'] as num).toDouble(),
-  priceChange24h: (json['priceChange24h'] as num).toDouble(),
+  currentPrice: (json['currentPrice'] as num?)?.toDouble(),
+  marketCap: (json['marketCap'] as num?)?.toDouble(),
+  marketCapRank: (json['marketCapRank'] as num?)?.toInt(),
+  high24h: (json['high24h'] as num?)?.toDouble(),
+  low24h: (json['low24h'] as num?)?.toDouble(),
+  priceChange24h: (json['priceChange24h'] as num?)?.toDouble(),
   priceChangePercentage24h:
-      (json['priceChangePercentage24h'] as num).toDouble(),
+      (json['priceChangePercentage24h'] as num?)?.toDouble(),
   sparklineData:
-      (json['sparklineData'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
+      (json['sparklineData'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
           .toList(),
 );
 

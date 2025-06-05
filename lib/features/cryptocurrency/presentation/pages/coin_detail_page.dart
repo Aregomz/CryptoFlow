@@ -8,7 +8,7 @@ class CoinDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final priceChangeColor = coin.priceChange24h >= 0 ? Colors.green : Colors.red;
+    final priceChangeColor = (coin.priceChange24h ?? 0) >= 0 ? Colors.green : Colors.red;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +34,7 @@ class CoinDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '\$${coin.currentPrice.toStringAsFixed(2)}',
+                    '\$${coin.currentPrice?.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class CoinDetailPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${coin.priceChangePercentage24h >= 0 ? '+' : ''}${coin.priceChangePercentage24h.toStringAsFixed(2)}%',
+                      '${(coin.priceChangePercentage24h ?? 0) >= 0 ? '+' : ''}${coin.priceChangePercentage24h?.toStringAsFixed(2)}%',
                       style: TextStyle(
                         color: priceChangeColor,
                         fontWeight: FontWeight.bold,
@@ -70,22 +70,22 @@ class CoinDetailPage extends StatelessWidget {
             _buildInfoCard(
               context: context,
               title: 'Market Cap',
-              value: '\$${_formatNumber(coin.marketCap)}',
+              value: '\$${_formatNumber(coin.marketCap ?? 0)}',
             ),
             _buildInfoCard(
               context: context,
               title: '24h High',
-              value: '\$${coin.high24h.toStringAsFixed(2)}',
+              value: '\$${coin.high24h?.toStringAsFixed(2)}',
             ),
             _buildInfoCard(
               context: context,
               title: '24h Low',
-              value: '\$${coin.low24h.toStringAsFixed(2)}',
+              value: '\$${coin.low24h?.toStringAsFixed(2)}',
             ),
             _buildInfoCard(
               context: context,
               title: '24h Price Change',
-              value: '\$${coin.priceChange24h.toStringAsFixed(2)}',
+              value: '\$${coin.priceChange24h?.toStringAsFixed(2)}',
               valueColor: priceChangeColor,
             ),
           ],

@@ -9,8 +9,8 @@ class CoinListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final priceChangeColor = coin.priceChange24h >= 0 ? Colors.green : Colors.red;
-    final priceChangeIcon = coin.priceChange24h >= 0 
+    final priceChangeColor = (coin.priceChange24h ?? 0) >= 0 ? Colors.green : Colors.red;
+    final priceChangeIcon = (coin.priceChange24h ?? 0) >= 0 
         ? Icons.arrow_upward 
         : Icons.arrow_downward;
 
@@ -68,7 +68,7 @@ class CoinListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '\$${coin.currentPrice.toStringAsFixed(2)}',
+                    '\$${coin.currentPrice?.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -85,7 +85,7 @@ class CoinListItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        '${coin.priceChangePercentage24h.toStringAsFixed(2)}%',
+                        '${coin.priceChangePercentage24h?.toStringAsFixed(2)}%',
                         style: TextStyle(
                           fontSize: 14,
                           color: priceChangeColor,
