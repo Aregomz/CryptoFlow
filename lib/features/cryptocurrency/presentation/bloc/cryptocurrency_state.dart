@@ -4,7 +4,7 @@ abstract class CryptocurrencyState extends Equatable {
   const CryptocurrencyState();
   
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CryptocurrencyInitial extends CryptocurrencyState {}
@@ -17,7 +17,7 @@ class CryptocurrencyError extends CryptocurrencyState {
   const CryptocurrencyError(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
 
 class TopCoinsLoaded extends CryptocurrencyState {
@@ -26,7 +26,7 @@ class TopCoinsLoaded extends CryptocurrencyState {
   const TopCoinsLoaded(this.coins);
 
   @override
-  List<Object> get props => [coins];
+  List<Object?> get props => [coins];
 }
 
 class CoinDetailsLoaded extends CryptocurrencyState {
@@ -35,5 +35,5 @@ class CoinDetailsLoaded extends CryptocurrencyState {
   const CoinDetailsLoaded(this.coin);
 
   @override
-  List<Object> get props => [coin];
+  List<Object?> get props => [coin];
 } 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/coin.dart';
+import '../widgets/price_chart.dart';
 
 class CoinDetailPage extends StatelessWidget {
   final Coin coin;
@@ -61,7 +62,34 @@ class CoinDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
+            if (coin.sparklineData != null && coin.sparklineData!.isNotEmpty)
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Price Chart (7d)',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      PriceChart(
+                        prices: coin.sparklineData!,
+                        lineColor: priceChangeColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            const SizedBox(height: 24),
             _buildInfoCard(
               context: context,
               title: 'Market Cap Rank',

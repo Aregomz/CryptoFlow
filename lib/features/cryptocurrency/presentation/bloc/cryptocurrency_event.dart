@@ -4,7 +4,7 @@ abstract class CryptocurrencyEvent extends Equatable {
   const CryptocurrencyEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadTopCoins extends CryptocurrencyEvent {
@@ -18,4 +18,13 @@ class LoadCoinDetails extends CryptocurrencyEvent {
 
   @override
   List<Object> get props => [coinId];
+}
+
+class ToggleFavorite extends CryptocurrencyEvent {
+  final Coin coin;
+
+  const ToggleFavorite(this.coin);
+
+  @override
+  List<Object?> get props => [coin];
 } 

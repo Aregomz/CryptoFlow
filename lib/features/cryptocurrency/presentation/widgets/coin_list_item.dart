@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/coin.dart';
 import '../pages/coin_detail_page.dart';
+import 'dart:developer' as dev;
+import 'package:intl/intl.dart';
 
 class CoinListItem extends StatelessWidget {
   final Coin coin;
+  final VoidCallback onTap;
+  final VoidCallback onFavoritePressed;
 
-  const CoinListItem({super.key, required this.coin});
+  const CoinListItem({
+    Key? key,
+    required this.coin,
+    required this.onTap,
+    required this.onFavoritePressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    dev.log('Building CoinListItem for ${coin.name}:');
+    dev.log('Current Price: ${coin.currentPrice}');
+    dev.log('Price Change 24h: ${coin.priceChange24h}');
+    dev.log('Price Change Percentage 24h: ${coin.priceChangePercentage24h}');
+
     final priceChangeColor = (coin.priceChange24h ?? 0) >= 0 ? Colors.green : Colors.red;
     final priceChangeIcon = (coin.priceChange24h ?? 0) >= 0 
         ? Icons.arrow_upward 
         : Icons.arrow_downward;
+
+    final formattedPrice = coin.currentPrice != null 
+        ? '\$${coin.currentPrice!.toStringAsFixed(2)}'
+        : '\$null';
+    
+    final formattedPercentage = coin.priceChangePercentage24h != null
+        ? '${coin.priceChangePercentage24h!.toStringAsFixed(2)}%'
+        : 'null%';
+
+    dev.log('Formatted values:');
+    dev.log('Price: $formattedPrice');
+    dev.log('Percentage: $formattedPercentage');
+
+    final numberFormat = NumberFormat.currency(symbol: '\$');
+    final percentageFormat = NumberFormat.decimalPercentPattern(decimalDigits: 2);
 
     return Card(
       elevation: 2,
@@ -20,14 +49,7 @@ class CoinListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CoinDetailPage(coin: coin),
-            ),
-          );
-        },
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -35,10 +57,24 @@ class CoinListItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  coin.image,
-                  width: 40,
-                  height: 40,
+                child: Stack(
+                  children: [
+                    Image.network(
+                      coin.image,
+                      width: 40,
+                      height: 40,
+                    ),
+                    if (coin.isFavorite)
+                      const Positioned(
+                        right: -4,
+                        top: -4,
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(width: 16),
@@ -68,7 +104,7 @@ class CoinListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '\$${coin.currentPrice?.toStringAsFixed(2)}',
+                    formattedPrice,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -85,7 +121,7 @@ class CoinListItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        '${coin.priceChangePercentage24h?.toStringAsFixed(2)}%',
+                        formattedPercentage,
                         style: TextStyle(
                           fontSize: 14,
                           color: priceChangeColor,
@@ -95,6 +131,13 @@ class CoinListItem extends StatelessWidget {
                     ],
                   ),
                 ],
+              ),
+              IconButton(
+                icon: Icon(
+                  coin.isFavorite ? Icons.star : Icons.star_border,
+                  color: coin.isFavorite ? Colors.amber : Colors.grey,
+                ),
+                onPressed: onFavoritePressed,
               ),
             ],
           ),

@@ -4,6 +4,7 @@ import '../bloc/cryptocurrency_bloc.dart';
 import '../widgets/coin_list_item.dart';
 import '../widgets/error_message.dart';
 import '../widgets/loading_indicator.dart';
+import '../pages/coin_detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,7 +44,18 @@ class HomePage extends StatelessWidget {
                   final coin = state.coins[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: CoinListItem(coin: coin),
+                    child: CoinListItem(
+                      coin: coin,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CoinDetailPage(coin: coin),
+                        ),
+                      ),
+                      onFavoritePressed: () {
+                        context.read<CryptocurrencyBloc>().add(ToggleFavorite(coin));
+                      },
+                    ),
                   );
                 },
               ),
